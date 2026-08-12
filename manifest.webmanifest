@@ -1,0 +1,20 @@
+{
+  "name": "Presupuestos — Herrería",
+  "short_name": "Presupuestos",
+  "description": "Presupuestos de herrería: materiales, mano de obra y PDF para el cliente.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#14171C",
+  "theme_color": "#14171C",
+  "lang": "es-AR",
+  "icons": [
+    {
+      "src": "icono.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
