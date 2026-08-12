@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Presupuestos — Herrería</title>
+<title>Presupuestos — Hidalgo Portones</title>
 <meta name="description" content="Presupuestos de herrería: materiales, mano de obra y PDF para el cliente." />
 <meta name="theme-color" content="#14171C" />
 <link rel="manifest" href="manifest.webmanifest" />
@@ -132,11 +132,8 @@
     -webkit-mask-image:linear-gradient(90deg,transparent,#000 70%);
     mask-image:linear-gradient(90deg,transparent,#000 70%);
   }
-  .mark{
-    width:34px;height:34px;flex:none;border:2px solid var(--accent);
-    background:repeating-linear-gradient(90deg,var(--accent) 0 2px,transparent 2px 7px);
-    border-radius:2px;
-  }
+  .mark{flex:none;display:flex;align-items:center;line-height:0}
+  .mark svg{display:block}
   .brand-name{font-weight:800;font-size:15.5px;letter-spacing:.01em;line-height:1.2;
     white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60vw}
   .brand-sub{font-family:var(--mono);font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--steel-ink-2);margin-top:2px}
@@ -409,9 +406,22 @@
 
 <div class="app">
   <header class="topbar">
-    <div class="mark"></div>
+    <div class="mark" aria-hidden="true">
+      <svg viewBox="0 0 64 58" width="38" height="34">
+        <g fill="#C9BEA6">
+          <rect x="13" y="17" width="9" height="26" rx="1"/>
+          <rect x="23" y="9"  width="9" height="34" rx="1"/>
+          <rect x="33" y="5"  width="7" height="38" rx="1"/>
+          <rect x="41" y="15" width="9" height="28" rx="1"/>
+        </g>
+        <path fill="#C93A2B"
+              d="M8 46.5 22 37 30 41.5 42 33.5 57 46.5 53.2 46.5 42 36.3 30.2 44.2 22.2 39.9 11.8 46.5z"/>
+        <path fill="none" stroke="#8A8378" stroke-width="1.1" stroke-linecap="round"
+              d="M11 51c8-2.7 16.5-4.1 23-4.1s15 1.4 23 4.1"/>
+      </svg>
+    </div>
     <div style="min-width:0">
-      <div class="brand-name" id="brandName">Herrería</div>
+      <div class="brand-name" id="brandName">Hidalgo Portones</div>
       <div class="brand-sub">Presupuestos</div>
     </div>
   </header>
@@ -475,7 +485,7 @@
     <div class="stack">
       <div>
         <label class="label" for="sNombre">Nombre del taller</label>
-        <input class="field" id="sNombre" placeholder="Herrería López" autocomplete="off" />
+        <input class="field" id="sNombre" placeholder="Hidalgo Portones" autocomplete="off" />
       </div>
       <div>
         <label class="label" for="sContacto">Teléfono / contacto</label>
@@ -746,7 +756,7 @@ var S = cargar();
 function estadoNuevo(){
   return {
     materiales: materialesIniciales(),
-    ajustes: { nombre:"Herrería", contacto:"", numero:1, validez:15, notas:"" },
+    ajustes: { nombre:"Hidalgo Portones", contacto:"", numero:1, validez:15, notas:"" },
     borrador: { cliente:"", trabajo:"", items:[], modo:"pct", adicional:"" },
     historial: []
   };
@@ -1014,7 +1024,7 @@ function renderAjustes(){
   $("sNumero").value = S.ajustes.numero;
   $("sValidez").value = S.ajustes.validez;
   $("sNotas").value = S.ajustes.notas;
-  $("brandName").textContent = S.ajustes.nombre || "Herrería";
+  $("brandName").textContent = S.ajustes.nombre || "Hidalgo Portones";
 }
 
 function renderTotalSheet(){
@@ -1222,7 +1232,7 @@ $("btnHistBorrar").addEventListener("click", function(){
    7. EVENTOS — AJUSTES
    ========================================================= */
 
-$("sNombre").addEventListener("input", function(){ S.ajustes.nombre = this.value; $("brandName").textContent = this.value || "Herrería"; guardar(); });
+$("sNombre").addEventListener("input", function(){ S.ajustes.nombre = this.value; $("brandName").textContent = this.value || "Hidalgo Portones"; guardar(); });
 $("sContacto").addEventListener("input", function(){ S.ajustes.contacto = this.value; guardar(); });
 $("sNumero").addEventListener("input", function(){ S.ajustes.numero = Math.max(1, Math.round(num(this.value)) || 1); guardar(); });
 $("sValidez").addEventListener("input", function(){ S.ajustes.validez = Math.max(0, Math.round(num(this.value))); guardar(); });
@@ -1332,7 +1342,7 @@ function datosPresupuesto(){
     if(m && !vistos[m.nombre]){ vistos[m.nombre] = 1; nombres.push(m.nombre); }
   });
   return {
-    taller: S.ajustes.nombre || "Herrería",
+    taller: S.ajustes.nombre || "Hidalgo Portones",
     contacto: S.ajustes.contacto || "",
     numero: ("000" + (S.ajustes.numero || 1)).slice(-4),
     fecha: fechaHoy(),
