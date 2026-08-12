@@ -8,7 +8,8 @@
 <meta name="theme-color" content="#14171C" />
 <link rel="manifest" href="manifest.webmanifest" />
 <link rel="icon" href="icono.svg" type="image/svg+xml" />
-<link rel="apple-touch-icon" href="icono.svg" />
+<link rel="icon" href="icono-180.png" sizes="180x180" type="image/png" />
+<link rel="apple-touch-icon" href="icono-180.png" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
@@ -102,14 +103,23 @@
     line-height:1.45;
     -webkit-text-size-adjust:100%;
     -webkit-tap-highlight-color:transparent;
+    /* comportamiento de app: sin rebote elástico ni zoom por doble toque */
+    overscroll-behavior-y:none;
+    touch-action:manipulation;
   }
+  /* Los textos de la interfaz no se seleccionan al mantener apretado, como en una app.
+     Los campos y el diagnóstico sí, para poder copiar. */
+  .topbar,.tabs,.dock,.sec-title,.label,.btn,.tab,.chip,.seg,.stepper button,.hint{
+    -webkit-user-select:none;user-select:none;
+  }
+  input,textarea,#diag{-webkit-user-select:text;user-select:text}
   .app{max-width:600px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative}
 
   /* ---------- top bar ---------- */
   .topbar{
     background:var(--steel);
     color:var(--steel-ink);
-    padding:14px 18px 15px;
+    padding:calc(14px + env(safe-area-inset-top)) 18px 15px;
     position:sticky;top:0;z-index:30;
     display:flex;align-items:center;gap:13px;
     border-bottom:3px solid var(--accent);
@@ -1782,6 +1792,14 @@ function renderTodo(){
 
 renderTodo();
 irA("pres");
+
+/* Guarda la app en el teléfono para que abra sin señal.
+   Sólo funciona sobre https (o localhost); abierta como archivo suelto se ignora. */
+if("serviceWorker" in navigator && location.protocol !== "file:"){
+  window.addEventListener("load", function(){
+    navigator.serviceWorker.register("sw.js").catch(function(){});
+  });
+}
 
 })();
 </script>
