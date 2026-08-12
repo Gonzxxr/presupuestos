@@ -336,12 +336,6 @@
   .sheet.alto{z-index:80}
   #shConfirm .sheet-body p{margin:0;font-size:15px;line-height:1.5;color:var(--ink-2)}
 
-  /* ---------- visor de PDF ---------- */
-  #visorPDF{
-    width:100%;height:46vh;min-height:280px;border:1px solid var(--line);
-    border-radius:var(--r);background:var(--surface-2);display:block;
-  }
-
   /* ---------- historial ---------- */
   .hist-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
   .hist-num{
@@ -657,15 +651,13 @@
       <button class="close-x" data-close="shPDF" aria-label="Cerrar">✕</button>
     </div>
     <div class="sheet-body">
-      <iframe id="visorPDF" title="Vista del presupuesto"></iframe>
-      <div style="height:10px"></div>
       <p class="hint" id="pdfNombre"></p>
     </div>
     <div class="sheet-foot">
       <button class="btn btn-primary" id="btnCompartir" hidden>Enviar al cliente</button>
-      <button class="btn btn-primary" id="btnImprimir">Guardar o enviar (imprimir)</button>
-      <button class="btn btn-ghost" id="btnBajar">Descargar el PDF</button>
-      <button class="btn btn-ghost" id="btnAbrir">Abrir en otra pestaña</button>
+      <button class="btn btn-primary" id="btnBajar">Descargar el PDF</button>
+      <button class="btn btn-ghost" id="btnImprimir">Imprimir</button>
+      <button class="btn btn-ghost" id="btnAbrir">Abrir el PDF</button>
       <button class="btn btn-ghost" id="btnOtro">Empezar otro presupuesto</button>
     </div>
   </section>
@@ -1401,13 +1393,10 @@ function generar(d){
 /* Muestra el PDF dentro de la app. Así el resultado siempre se ve, aunque el
    navegador bloquee la descarga automática o las pestañas nuevas. */
 function mostrarPDF(){
-  $("visorPDF").src = ultimoUrl;
-  $("pdfNombre").innerHTML = "<strong>" + esc(ultimoNombre) + "</strong><br>" +
-    "En iPhone usá <strong>Guardar o enviar (imprimir)</strong>: se abre la vista de impresión y desde el botón " +
-    "de compartir lo guardás en Archivos o lo mandás por WhatsApp. Si arriba no se ve el PDF, no importa.";
+  $("pdfNombre").innerHTML = "El presupuesto ya está armado como <strong>" + esc(ultimoNombre) + "</strong>. " +
+    "Elegí qué hacer con él.";
   $("btnCompartir").hidden = !puedeCompartir();
   abrir("shPDF");
-  bajarArchivo(ultimoUrl, ultimoNombre);
 }
 
 /* Mismo contenido que el PDF, pero como HTML para imprimir. En iPhone este es

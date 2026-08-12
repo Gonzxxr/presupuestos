@@ -1,6 +1,6 @@
 /* Service worker: hace que la app abra sin internet.
    Al cambiar cualquier archivo, subir el número de VERSION. */
-var VERSION = "presupuestos-v1";
+var VERSION = "presupuestos-v2";
 
 var ARCHIVOS = [
   "./",
