@@ -108,11 +108,11 @@
     touch-action:manipulation;
   }
   /* Los textos de la interfaz no se seleccionan al mantener apretado, como en una app.
-     Los campos y el diagnóstico sí, para poder copiar. */
+     Los campos sí, para poder escribir y copiar. */
   .topbar,.tabs,.dock,.sec-title,.label,.btn,.tab,.chip,.seg,.stepper button,.hint{
     -webkit-user-select:none;user-select:none;
   }
-  input,textarea,#diag{-webkit-user-select:text;user-select:text}
+  input,textarea{-webkit-user-select:text;user-select:text}
   .app{max-width:600px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative}
 
   /* ---------- top bar ---------- */
@@ -391,12 +391,6 @@
   .pr-notas p{margin:0 0 4px}
   .pr-firma{margin-top:40px;border-top:1px solid #999;width:190px;padding-top:6px;font-size:8.5pt;color:#666}
 
-  #diag{
-    background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r);
-    padding:12px;font-family:var(--mono);font-size:11.5px;line-height:1.6;
-    white-space:pre-wrap;word-break:break-word;color:var(--ink-2);
-  }
-
   .searchwrap{position:relative}
   .searchwrap .field{padding-left:38px}
   .searchwrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:17px;height:17px;stroke:var(--ink-3);fill:none;stroke-width:1.9}
@@ -513,13 +507,6 @@
       <button class="btn btn-ghost" id="btnExport">Descargar respaldo</button>
       <button class="btn btn-ghost" id="btnImport">Restaurar respaldo</button>
       <input type="file" id="fileImport" accept="application/json,.json" hidden />
-    </div>
-
-    <div class="sec-title"><h2>Diagnóstico</h2></div>
-    <div class="stack">
-      <p class="hint">Si el PDF no se descarga, tocá acá y mandale el resultado a quien te armó la app.</p>
-      <button class="btn btn-ghost" id="btnDiag">Revisar qué permite este navegador</button>
-      <div id="diag" hidden></div>
     </div>
 
     <div class="sec-title"><h2>Zona de riesgo</h2></div>
@@ -1264,38 +1251,6 @@ $("fileImport").addEventListener("change", function(){
   };
   r.readAsText(f);
   this.value = "";
-});
-
-$("btnDiag").addEventListener("click", function(){
-  var l = [];
-  function si(v){ return v ? "SÍ" : "NO"; }
-
-  l.push("Adentro de un iframe: " + si(window.self !== window.top));
-  try{ l.push("Permisos del iframe: " + (window.frameElement ? (window.frameElement.getAttribute("sandbox") || "sin sandbox") : "no visible")); }
-  catch(e){ l.push("Permisos del iframe: no visible (otro dominio)"); }
-
-  l.push("Atributo de descarga: " + si("download" in document.createElement("a")));
-
-  var compartir = "NO";
-  try{
-    if(navigator.canShare && navigator.canShare({ files:[ new File(["x"],"a.pdf",{type:"application/pdf"}) ] })) compartir = "SÍ";
-    else if(navigator.share) compartir = "sólo texto, archivos no";
-  }catch(e){ compartir = "NO (" + e.name + ")"; }
-  l.push("Compartir archivos: " + compartir);
-
-  l.push("Imprimir: " + si(typeof window.print === "function"));
-
-  try{ var u = URL.createObjectURL(new Blob(["x"])); l.push("Archivos temporales: SÍ"); URL.revokeObjectURL(u); }
-  catch(e){ l.push("Archivos temporales: NO"); }
-
-  try{ localStorage.setItem("__d","1"); localStorage.removeItem("__d"); l.push("Guardado local: SÍ"); }
-  catch(e){ l.push("Guardado local: NO"); }
-
-  l.push("Pantalla: " + window.innerWidth + "x" + window.innerHeight);
-  l.push("Navegador: " + navigator.userAgent);
-
-  $("diag").textContent = l.join("\n");
-  $("diag").hidden = false;
 });
 
 $("btnReset").addEventListener("click", function(){
